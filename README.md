@@ -12,14 +12,14 @@ Core utilities and helpers for VP projects.
 You can install this package directly from GitHub:
 
 ```bash
-pip install git+https://github.com/YOUR_USERNAME/vp-core.git
+pip install git+git@github.com:Volopay/vp-python-core.git
 ```
 
 Or add it to your `pyproject.toml`:
 
 ```toml
 dependencies = [
-    "vp-core @ git+https://github.com/YOUR_USERNAME/vp-core.git"
+    "vp-core @ git+git@github.com:Volopay/vp-python-core.git"
 ]
 ```
 
