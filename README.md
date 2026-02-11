@@ -59,10 +59,16 @@ app = FastAPI()
 app.middleware("http")(logging_middleware)
 ```
 
-Note: Requires `fastapi` to be installed. You can install it with the package using:
+
+### Updating the Package
+
+To update to the latest version from the git repository, run:
+
 ```bash
-pip install "vp-core[fastapi] @ git+https://github.com/YOUR_USERNAME/vp-core.git"
+pip install --upgrade git+https://github.com/Volopay/vp-python-core.git
 ```
+
+If you are using a `requirements.txt` or `pyproject.toml` file, `pip install` will usually respect the version unless you force an update or change the commit/branch.
 
 ## Development
 

@@ -17,17 +17,14 @@ classifiers = [
 ]
 dependencies = [
     "pydantic",
+    "fastapi",
 ]
 
 [project.optional-dependencies]
-fastapi = [
-    "fastapi",
-]
 test = [
     "pytest",
     "pytest-cov",
     "pytest-benchmark",
-    "fastapi",
     "httpx",
 ]
 
