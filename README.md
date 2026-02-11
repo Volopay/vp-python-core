@@ -5,6 +5,7 @@ Core utilities and helpers for VP projects.
 ## Features
 
 - **Structured Logging**: JSON-formatted logging with support for Pydantic models and context tracking.
+- **FastAPI Middleware**: Out-of-the-box middleware for request/response logging, request ID generation, and performance tracking.
 - **Helpers**: Common utility functions for case conversion, JSON parsing, and more.
 
 ## Installation
@@ -44,6 +45,23 @@ from vp_core.helpers.case_converter import to_camel
 
 camel_case = to_camel("snake_case_string")
 # Output: "snakeCaseString"
+```
+
+### FastAPI Middleware
+
+To use the logging middleware in a FastAPI application:
+
+```python
+from fastapi import FastAPI
+from vp_core.logging.middleware import logging_middleware
+
+app = FastAPI()
+app.middleware("http")(logging_middleware)
+```
+
+Note: Requires `fastapi` to be installed. You can install it with the package using:
+```bash
+pip install "vp-core[fastapi] @ git+https://github.com/YOUR_USERNAME/vp-core.git"
 ```
 
 ## Development
