@@ -12,14 +12,14 @@ Core utilities and helpers for VP projects.
 You can install this package directly from GitHub:
 
 ```bash
-pip install git+git@github.com:Volopay/vp-python-core.git
+pip install git+https://github.com/Volopay/vp-python-core.git
 ```
 
 Or add it to your `pyproject.toml`:
 
 ```toml
 dependencies = [
-    "vp-core @ git+git@github.com:Volopay/vp-python-core.git"
+    "vp-core @ git+https://github.com/Volopay/vp-python-core.git"
 ]
 ```
 
@@ -68,14 +68,3 @@ pytest --benchmark-only
 ```
 
 ### Running Checks
-
-The package includes a check script to run linting and type checking:
-
-```bash
-python -m vp_core.check
-```
-
-### Requirements
-
-- Python >= 3.8
-- Pydantic
