@@ -3,7 +3,7 @@ from collections.abc import Callable, Coroutine
 from functools import wraps
 from typing import Any, TypeVar
 
-from config.logging.logger import setup_logger
+from vp_core.logging.logger import setup_logger
 
 logger = setup_logger()
 
@@ -28,9 +28,11 @@ def _format_args(args: tuple[Any, ...], kwargs: dict[str, Any]) -> str:
     return f"args={formatted_args}, kwargs={formatted_kwargs}"
 
 
-def async_timed() -> Callable[
-    [Callable[..., Coroutine[Any, Any, T]]], Callable[..., Coroutine[Any, Any, T]]
-]:
+def async_timed() -> (
+    Callable[
+        [Callable[..., Coroutine[Any, Any, T]]], Callable[..., Coroutine[Any, Any, T]]
+    ]
+):
     def wrapper(
         func: Callable[..., Coroutine[Any, Any, T]],
     ) -> Callable[..., Coroutine[Any, Any, T]]:

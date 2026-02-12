@@ -3,7 +3,7 @@ import re
 from datetime import datetime
 from typing import Any, cast
 
-from config.logging.logger import setup_logger
+from vp_core.logging.logger import setup_logger
 
 logger = setup_logger()
 
