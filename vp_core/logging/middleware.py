@@ -2,6 +2,7 @@ import time
 import uuid
 from collections.abc import Awaitable, Callable
 
+import sentry_sdk
 from fastapi import Request, Response
 from fastapi.responses import JSONResponse
 
@@ -55,6 +56,7 @@ async def logging_middleware(
             stacklevel=1,
             exc_info=True,
         )
+        sentry_sdk.capture_exception(e)
         return JSONResponse(
             status_code=500,
             content={"message": "Internal Server Error"},

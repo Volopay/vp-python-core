@@ -18,6 +18,7 @@ classifiers = [
 dependencies = [
     "pydantic",
     "fastapi",
+    "sentry-sdk[fastapi]",
 ]
 
 [project.optional-dependencies]
