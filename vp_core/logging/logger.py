@@ -1,7 +1,8 @@
 import logging
+import os
 import traceback
 from datetime import datetime
-from typing import Any
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -11,16 +12,16 @@ from vp_core.logging.context import get_log_context
 class LogEntry(BaseModel):
     timestamp: datetime
     level: str
-    request_id: str | None = None
-    org_id: str | None = None
-    ip: str | None = None
+    request_id: Optional[str] = None
+    org_id: Optional[str] = None
+    ip: Optional[str] = None
     message: str
-    extra: dict[str, Any] | None = None
-    lead_id: str | None = None
+    extra: Optional[dict] = None
+    lead_id: Optional[str] = None
 
 
 class PydanticJSONFormatter(logging.Formatter):
-    def format(self, record: logging.LogRecord) -> str:
+    def format(self, record):
         context = get_log_context()
         extra = self.get_extra_fields(record)
         if record.exc_info:
@@ -36,10 +37,13 @@ class PydanticJSONFormatter(logging.Formatter):
             extra=extra,
         )
 
-        return log_entry.model_dump_json(indent=4)
+        is_dev = os.getenv("ENVIRONMENT", "dev").lower() == "dev"
+        if is_dev:
+            return log_entry.model_dump_json(indent=4)
+        return log_entry.model_dump_json()
 
-    def get_extra_fields(self, record: logging.LogRecord) -> dict[str, Any]:
-        extra_fields: dict[str, Any] = record.__dict__.copy()
+    def get_extra_fields(self, record):
+        extra_fields = record.__dict__.copy()
         extra_fields.pop("args", None)
         extra_fields.pop("message", None)
         extra_fields.pop("levelname", None)
@@ -54,28 +58,27 @@ class PydanticJSONFormatter(logging.Formatter):
         extra_fields.pop("stack_info", None)
 
         for key, value in extra_fields.items():
-            if not isinstance(
-                value, str | int | float | bool | list | dict | type(None)
-            ):
+            if not isinstance(value, (str, int, float, bool, list, dict, type(None))):
                 extra_fields[key] = str(value)
 
         return extra_fields
 
-    def format_exception(self, exc_info: Any) -> str:
+    def format_exception(self, exc_info):
         stack_trace = traceback.format_exception(*exc_info)
+        cwd = os.getcwd()
+
         filtered_trace = [
             line
             for line in "".join(stack_trace).split("\n")
-            if "/Users/hari/Documents/ror/oxo-agent/" in line
+            if "/app/" in line
+            or cwd in line
             or 'File "<string>"' in line
             or "Traceback (most recent call last):" in line
         ]
         return "\n".join(filtered_trace)
 
 
-def setup_logger(
-    log_level: int = logging.INFO, log_group: str = "oxo_agent"
-) -> logging.Logger:
+def setup_logger(log_level=logging.INFO, log_group: str = "oxo_agent"):
     logger = logging.getLogger(log_group)
     if not logger.hasHandlers():
         handler = logging.StreamHandler()
