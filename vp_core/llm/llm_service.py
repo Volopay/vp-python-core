@@ -1,9 +1,9 @@
 from typing import Any
 
-from llm.gemini_service import GeminiService
-from llm.openai_service import OpenaiService
-
 from vp_core.helpers.parse_json import parse_llm_output
+
+from .gemini_service import GeminiService
+from .openai_service import OpenaiService
 
 
 class LlmService:
