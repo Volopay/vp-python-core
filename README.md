@@ -70,6 +70,23 @@ pip install --upgrade git+https://github.com/Volopay/vp-python-core.git
 
 If you are using a `requirements.txt` or `pyproject.toml` file, `pip install` will usually respect the version unless you force an update or change the commit/branch.
 
+### Using as a Local Dependency in Poetry
+
+If you are developing another project locally and want to use this package without publishing it, you can add it to your `pyproject.toml` using Poetry:
+
+```bash
+poetry add /path/to/vp-core
+```
+
+Or manually add it to your `pyproject.toml` in the other project:
+
+```toml
+[tool.poetry.dependencies]
+vp-core = { path = "../vp-core", develop = true }
+```
+
+Note: Setting `develop = true` ensures that any changes you make in the `vp-core` project are immediately reflected in your other project without needing to reinstall.
+
 ## Development
 
 ### Running Tests and Benchmarks
