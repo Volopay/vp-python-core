@@ -6,8 +6,8 @@ import sentry_sdk
 from fastapi import Request, Response
 from fastapi.responses import JSONResponse
 
-from vp_core.logging_config import get_logger
 from vp_core.logging.context import set_log_context
+from vp_core.logging_config import get_logger
 
 logger = get_logger(__name__)
 
@@ -41,16 +41,14 @@ async def logging_middleware(
         process_time = time.time() - start_time
         response.headers["X-Process-Time"] = str(process_time)
         logger.info(
-            f"""Request finished in {process_time:.4f}s:
-                {request.method} {request.url.path}""",
+            f"""Request finished in {process_time:.4f}s: {request.method} {request.url.path}""",
             extra={"request_id": request_id, "status_code": response.status_code},
         )
         return response
     except Exception as e:
         process_time = time.time() - start_time
         logger.error(
-            f"""Request failed in {process_time:.4f}s:
-                {request.method} {request.url.path} - {e}""",
+            f"""Request failed in {process_time:.4f}s: {request.method} {request.url.path} - {e}""",
             extra={"request_id": request_id},
             stack_info=True,
             stacklevel=1,
