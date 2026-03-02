@@ -78,13 +78,8 @@ class PydanticJSONFormatter(logging.Formatter):
         return "\n".join(filtered_trace)
 
 
-def setup_logger(log_level=logging.INFO, log_group: str = "oxo_agent"):
-    logger = logging.getLogger(log_group)
-    if not logger.hasHandlers():
-        handler = logging.StreamHandler()
-        handler.setFormatter(PydanticJSONFormatter())
-        logger.addHandler(handler)
-        logger.setLevel(log_level)
-        logger.propagate = False
+def setup_logger(log_level=logging.INFO, log_group: str = "general"):
+    from vp_core.logging_config import setup_logging
 
-    return logger
+    setup_logging(log_level=log_level)
+    return logging.getLogger(log_group)

@@ -14,15 +14,19 @@ ip_var: contextvars.ContextVar[str | None] = contextvars.ContextVar("ip", defaul
 
 
 def set_log_context(
-    request_id: str | None,
-    org_id: str | None,
-    lead_id: str | None,
-    ip: str | None,
+    request_id: str | None = None,
+    org_id: str | None = None,
+    lead_id: str | None = None,
+    ip: str | None = None,
 ) -> None:
-    request_id_var.set(request_id)
-    org_id_var.set(org_id)
-    lead_id_var.set(lead_id)
-    ip_var.set(ip)
+    if request_id is not None:
+        request_id_var.set(request_id)
+    if org_id is not None:
+        org_id_var.set(org_id)
+    if lead_id is not None:
+        lead_id_var.set(lead_id)
+    if ip is not None:
+        ip_var.set(ip)
 
 
 def get_log_context() -> dict[str, Any]:
