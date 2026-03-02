@@ -1,10 +1,13 @@
 import os
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 import pytest
 from fastapi import Request
 from fastapi.responses import JSONResponse
-from vp_python_core.logging.middleware import logging_middleware
-from vp_python_core.logging_config import setup_logging
+
+from vp_core.logging.middleware import logging_middleware
+from vp_core.logging_config import setup_logging
+
 
 def test_setup_logging_with_sentry():
     with patch("sentry_sdk.init") as mock_sentry_init:
@@ -13,6 +16,7 @@ def test_setup_logging_with_sentry():
             mock_sentry_init.assert_called_once()
             args, kwargs = mock_sentry_init.call_args
             assert kwargs["dsn"] == "https://example.com"
+
 
 @pytest.mark.asyncio
 async def test_logging_middleware_captures_exception():
@@ -28,10 +32,13 @@ async def test_logging_middleware_captures_exception():
 
     with patch("sentry_sdk.capture_exception") as mock_capture:
         response = await logging_middleware(mock_request, mock_call_next)
-        
+
         assert isinstance(response, JSONResponse)
         assert response.status_code == 500
         mock_capture.assert_called_once()
         args, _ = mock_capture.call_args
         assert isinstance(args[0], ValueError)
+        assert str(args[0]) == "Test Exception"
+        assert isinstance(args[0], ValueError)
+        assert str(args[0]) == "Test Exception"
         assert str(args[0]) == "Test Exception"
