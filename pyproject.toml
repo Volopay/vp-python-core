@@ -34,6 +34,20 @@ testpaths = ["tests"]
 python_files = "test_*.py"
 addopts = "--cov=vp_core --cov-report=term-missing"
 
+[tool.poetry]
+name = "vp-python-core"
+version = "0.1.0"
+description = "Core utilities for VP projects"
+authors = ["Hari <hari@example.com>"]
+readme = "README.md"
+packages = [{include = "vp_core"}]
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+pydantic = "*"
+fastapi = "*"
+sentry-sdk = {extras = ["fastapi"], version = "*"}
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["vp_core*"]

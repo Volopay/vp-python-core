@@ -6,7 +6,7 @@ import sentry_sdk
 from fastapi import Request, Response
 from fastapi.responses import JSONResponse
 
-from vp_core import get_logger
+from vp_core.logging_config import get_logger
 from vp_core.logging.context import set_log_context
 
 logger = get_logger(__name__)
