@@ -110,9 +110,3 @@ async def validate_token(
 #
 #         app.include_router(router, dependencies=[AuthDep])
 #     """
-#     ...
-#
-# Current blockers for this abstraction:
-# - Only 2 services use this pattern (volo-agents, ocr-reader)
-# - Each service has slight variations (required vs optional headers)
-# - Each service benefits from owning its auth logic for debugging
