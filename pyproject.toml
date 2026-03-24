@@ -19,6 +19,7 @@ dependencies = [
     "pydantic",
     "fastapi",
     "sentry-sdk[fastapi]",
+    "httpx (>=0.28.1,<0.29.0)",
 ]
 
 [project.optional-dependencies]
