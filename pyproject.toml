@@ -19,6 +19,8 @@ dependencies = [
     "pydantic",
     "fastapi",
     "sentry-sdk[fastapi]",
+    "boto3",
+    "httpx[http2]",
 ]
 
 [project.optional-dependencies]
@@ -26,13 +28,14 @@ test = [
     "pytest",
     "pytest-cov",
     "pytest-benchmark",
+    "pytest-mock",
+    "pytest-asyncio",
     "httpx",
 ]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = "test_*.py"
-addopts = "--cov=vp_core --cov-report=term-missing"
 
 [tool.poetry]
 name = "vp-python-core"
@@ -47,6 +50,8 @@ python = ">=3.8"
 pydantic = "*"
 fastapi = "*"
 sentry-sdk = {extras = ["fastapi"], version = "*"}
+boto3 = "*"
+httpx = {extras = ["http2"], version = "*"}
 
 [tool.setuptools.packages.find]
 where = ["."]
