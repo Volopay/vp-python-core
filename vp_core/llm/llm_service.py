@@ -33,7 +33,7 @@ class LlmService:
 
     async def with_structured_output(
         self,
-        prompt: Any,
+        prompt: str,
         response_model: Type[BaseModel],
         multiplier: float = 0.5,
         min_wait: float = 0.5,
