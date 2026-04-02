@@ -40,7 +40,7 @@ class LlmService:
         min_wait: float = 0.5,
         max_wait: float = 2,
         **kwargs
-    ) -> Any:
+    ) -> BaseModel | dict[str, str]:
         llm = self.llm(**kwargs)
         structured_llm = llm.with_structured_output(response_model, include_raw=True)
 
@@ -74,8 +74,5 @@ class LlmService:
                 "status": "FAIL",
                 "reason": "LLM failed to provide a structured result.",
             }
-
-        if hasattr(parsed, "model_dump"):
-            return parsed.model_dump()
 
         return parsed
