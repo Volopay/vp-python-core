@@ -1,5 +1,6 @@
 from typing import Any, Type
 
+from langchain_core.messages import BaseMessage
 from pydantic import BaseModel
 from tenacity import retry, stop_after_attempt, wait_exponential
 
@@ -33,7 +34,7 @@ class LlmService:
 
     async def with_structured_output(
         self,
-        prompt: str,
+        prompt: str | list[BaseMessage],
         response_model: Type[BaseModel],
         multiplier: float = 0.5,
         min_wait: float = 0.5,
