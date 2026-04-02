@@ -21,6 +21,8 @@ dependencies = [
     "sentry-sdk[fastapi]",
     "boto3",
     "httpx[http2]",
+    "tenacity",
+    "langchain-core",
 ]
 
 [project.optional-dependencies]
@@ -52,6 +54,8 @@ fastapi = "*"
 sentry-sdk = {extras = ["fastapi"], version = "*"}
 boto3 = "*"
 httpx = {extras = ["http2"], version = "*"}
+tenacity = "*"
+langchain-core = "*"
 
 [tool.setuptools.packages.find]
 where = ["."]
