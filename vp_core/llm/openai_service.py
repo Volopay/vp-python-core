@@ -8,6 +8,6 @@ OPENAI_TEMPERATURE = float(os.getenv("OPENAI_TEMPERATURE", "0.1"))
 
 
 class OpenaiService:
-    def llm(self) -> BaseChatModel:
-        llm = init_chat_model(OPENAI_MODEL, temperature=OPENAI_TEMPERATURE)
+    def llm(self, model=OPENAI_MODEL) -> BaseChatModel:
+        llm = init_chat_model(model, temperature=OPENAI_TEMPERATURE)
         return llm

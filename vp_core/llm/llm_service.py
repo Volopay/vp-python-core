@@ -14,7 +14,8 @@ logger = setup_logger()
 
 
 class LlmService:
-    CURRENT_LLM = "gemini"
+    def __init__(self, current_llm: str = "gemini"):
+        self.CURRENT_LLM = current_llm
 
     def llm(self, model=GEMINI_PRIMARY_MODEL) -> Any:
         return self._service(model=model)
@@ -25,12 +26,11 @@ class LlmService:
     # --- private methods ----
 
     def _service(self, model=GEMINI_PRIMARY_MODEL):
-        if self.CURRENT_LLM == "gemini":
-            return GeminiService().llm(model=model)
-        elif self.CURRENT_LLM == "openai":
-            return OpenaiService().llm()
-        else:
-            return GeminiService().llm(model=model)
+
+        if self.CURRENT_LLM == "openai":
+            return OpenaiService().llm(model=model)
+
+        return GeminiService().llm(model=model)
 
     async def with_structured_output(
         self,
