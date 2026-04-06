@@ -12,7 +12,7 @@ def test_llm_service_chooses_openai_for_gpt(mock_openai, mock_gemini):
     mock_gemini_instance = mock_gemini.return_value
     mock_gemini_instance.llm.return_value = "mock_gemini_llm"
     
-    service = LlmService()
+    service = LlmService("openai")
     
     # Passing a gpt model should route to OpenaiService
     result = service.llm(model="gpt-4o")
@@ -31,7 +31,7 @@ def test_llm_service_chooses_gemini_for_others(mock_openai, mock_gemini):
     mock_gemini_instance = mock_gemini.return_value
     mock_gemini_instance.llm.return_value = "mock_gemini_llm"
     
-    service = LlmService()
+    service = LlmService("gemini")
     
     # By default, should route to GeminiService
     result = service.llm(model="gemini-1.5-pro")

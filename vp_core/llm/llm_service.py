@@ -26,8 +26,6 @@ class LlmService:
     # --- private methods ----
 
     def _service(self, model=GEMINI_PRIMARY_MODEL):
-        if model and model.startswith("gpt"):
-            self.CURRENT_LLM = "openai"
 
         if self.CURRENT_LLM == "openai":
             return OpenaiService().llm(model=model)
