@@ -26,13 +26,15 @@ async def validate_token(
     account: str,
     volo_be_url: str,
     x_feature: str | None = None,
-    env: str | None = None,
 ) -> bool:
     """
     Validates a user's session token by calling volo-be's token validation endpoint.
 
     This is used by satellite microservices (volo-agents, ocr-reader, etc.) to verify
     that a frontend user's token is valid without maintaining their own user database.
+
+    Note: Environment-specific logic (e.g., skipping validation in test) should be
+    handled by the calling service, not here. This is a pure HTTP client function.
 
     Args:
         client: Client identifier (e.g., "web", "mobile")
@@ -41,7 +43,6 @@ async def validate_token(
         account: Account/organization identifier
         volo_be_url: Base URL of volo-be (e.g., "https://api.volopay.com")
         x_feature: Optional feature flag header
-        env: Environment name (defaults to None). If "test", always returns True.
 
     Returns:
         True if the token is valid (volo-be returned 200), False otherwise.
@@ -57,10 +58,6 @@ async def validate_token(
         >>> if valid:
         ...     # proceed with authenticated request
     """
-    # Skip validation in test environments
-    if env == "test":
-        return True
-
     headers = {
         "client": client,
         "access-token": access_token,
