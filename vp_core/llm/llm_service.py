@@ -17,20 +17,20 @@ class LlmService:
     def __init__(self, current_llm: str = "gemini"):
         self.CURRENT_LLM = current_llm
 
-    def llm(self, model=GEMINI_PRIMARY_MODEL) -> Any:
-        return self._service(model=model)
+    def llm(self, model=GEMINI_PRIMARY_MODEL, **kwargs) -> Any:
+        return self._service(model=model, **kwargs)
 
     def parse_json_output(self, output: str) -> Any:
         return parse_llm_output(output)
 
     # --- private methods ----
 
-    def _service(self, model=GEMINI_PRIMARY_MODEL):
+    def _service(self, model=GEMINI_PRIMARY_MODEL, **kwargs):
 
         if self.CURRENT_LLM == "openai":
-            return OpenaiService().llm(model=model)
+            return OpenaiService().llm(model=model, **kwargs)
 
-        return GeminiService().llm(model=model)
+        return GeminiService().llm(model=model, **kwargs)
 
     async def with_structured_output(
         self,
