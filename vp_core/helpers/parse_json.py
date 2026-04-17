@@ -76,7 +76,7 @@ def parse_llm_output(output: str | None) -> dict[Any, Any] | list[Any]:
 
 
 def fetch_urls(output: str) -> list[str]:
-    return re.findall(r"https?://[^\s]+", output)
+    return re.findall(r"https?://[^\s,']+", output)
 
 
 class CustomJSONEncoder(json.JSONEncoder):
