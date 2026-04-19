@@ -7,9 +7,9 @@ GEMINI_PRIMARY_MODEL = os.getenv("GEMINI_PRIMARY_MODEL", "gemini-2.5-flash-lite"
 
 
 class GeminiService:
-    def llm(self, model=None) -> BaseChatModel:
+    def llm(self, model=None, **kwargs) -> BaseChatModel:
         if model is None:
             model = GEMINI_PRIMARY_MODEL
 
-        llm = init_chat_model(f"google_genai:{model}", temperature=0.5)
+        llm = init_chat_model(f"google_genai:{model}", temperature=0.5, **kwargs)
         return llm
