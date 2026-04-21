@@ -23,6 +23,7 @@ dependencies = [
     "httpx[http2]",
     "tenacity",
     "langchain-core",
+    "aiokafka",
 ]
 
 [project.optional-dependencies]
@@ -56,6 +57,7 @@ boto3 = "*"
 httpx = {extras = ["http2"], version = "*"}
 tenacity = "*"
 langchain-core = "*"
+aiokafka = "*"
 
 [tool.setuptools.packages.find]
 where = ["."]
