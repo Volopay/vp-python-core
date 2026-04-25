@@ -6,7 +6,7 @@ def get_kafka_config(
     kafka_group_id: Optional[str] = None,
     kafka_username: Optional[str] = None,
     kafka_password: Optional[str] = None,
-    is_consumer: bool = True,
+    is_consumer: bool = False,
     **kwargs: Any,
 ) -> dict[str, Any]:
     """
