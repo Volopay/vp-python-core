@@ -53,7 +53,4 @@ def get_kafka_config(
             }
         )
 
-    # Allow for additional overrides
-    config.update(kwargs)
-
-    return config
+    return config | kwargs
