@@ -31,9 +31,6 @@ def get_kafka_config(
         "retry.backoff.ms": kwargs.get("retry_backoff_ms") or 1000,
     }
 
-    if not is_consumer:
-        config["request.timeout.ms"] = kwargs.get("request_timeout_ms") or 60000
-
     if is_consumer:
         config.update(
             {
@@ -44,6 +41,8 @@ def get_kafka_config(
                 "heartbeat.interval.ms": kwargs.get("heartbeat_interval_ms") or 5000,
             }
         )
+    else:
+        config["request.timeout.ms"] = kwargs.get("request_timeout_ms") or 60000
 
     if kafka_username and kafka_password:
         config.update(
