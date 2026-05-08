@@ -28,9 +28,11 @@ def get_kafka_config(
 
     config: dict[str, Any] = {
         "bootstrap.servers": kafka_brokers,
-        "request.timeout.ms": kwargs.get("request_timeout_ms") or 60000,
         "retry.backoff.ms": kwargs.get("retry_backoff_ms") or 1000,
     }
+
+    if not is_consumer:
+        config["request.timeout.ms"] = kwargs.get("request_timeout_ms") or 60000
 
     if is_consumer:
         config.update(
