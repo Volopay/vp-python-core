@@ -27,29 +27,29 @@ def get_kafka_config(
         raise ValueError("kafka_group_id is required when is_consumer is True")
 
     config: dict[str, Any] = {
-        "bootstrap_servers": kafka_brokers,
-        "request_timeout_ms": kwargs.get("request_timeout_ms") or 60000,
-        "retry_backoff_ms": kwargs.get("retry_backoff_ms") or 1000,
+        "bootstrap.servers": kafka_brokers,
+        "request.timeout.ms": kwargs.get("request_timeout_ms") or 60000,
+        "retry.backoff.ms": kwargs.get("retry_backoff_ms") or 1000,
     }
 
     if is_consumer:
         config.update(
             {
-                "group_id": kafka_group_id,
-                "auto_offset_reset": kwargs.get("auto_offset_reset") or "earliest",
-                "enable_auto_commit": kwargs.get("enable_auto_commit") or False,
-                "max_poll_interval_ms": kwargs.get("max_poll_interval_ms") or 500000,
-                "heartbeat_interval_ms": kwargs.get("heartbeat_interval_ms") or 5000,
+                "group.id": kafka_group_id,
+                "auto.offset.reset": kwargs.get("auto_offset_reset") or "earliest",
+                "enable.auto.commit": kwargs.get("enable_auto_commit") or False,
+                "max.poll.interval.ms": kwargs.get("max_poll_interval_ms") or 500000,
+                "heartbeat.interval.ms": kwargs.get("heartbeat_interval_ms") or 5000,
             }
         )
 
     if kafka_username and kafka_password:
         config.update(
             {
-                "security_protocol": "SASL_PLAINTEXT",
-                "sasl_mechanism": "SCRAM-SHA-512",
-                "sasl_plain_username": kafka_username,
-                "sasl_plain_password": kafka_password,
+                "security.protocol": "SASL_PLAINTEXT",
+                "sasl.mechanism": "SCRAM-SHA-512",
+                "sasl.username": kafka_username,
+                "sasl.password": kafka_password,
             }
         )
 
