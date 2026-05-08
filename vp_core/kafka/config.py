@@ -36,7 +36,7 @@ def get_kafka_config(
             {
                 "group.id": kafka_group_id,
                 "auto.offset.reset": kwargs.get("auto_offset_reset") or "earliest",
-                "enable.auto.commit": kwargs.get("enable_auto_commit") or False,
+                "enable.auto.commit": kwargs.get("enable_auto_commit", False),
                 "max.poll.interval.ms": kwargs.get("max_poll_interval_ms") or 500000,
                 "heartbeat.interval.ms": kwargs.get("heartbeat_interval_ms") or 5000,
             }
