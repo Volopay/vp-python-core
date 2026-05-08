@@ -85,13 +85,14 @@ class KafkaWorker:
                 await self.consumer.subscribe([self.topic])
                 logger.info(f"Subscribed to topic: {self.topic}")
                 
-                msg = await self.consumer.poll(timeout=1.0)
-                if msg is None:
-                    continue
-                
-                if msg.error(): 
-                    logger.error(f"Consumer error: {msg.error()}")
-                    continue
+                while self.running:
+                    msg = await self.consumer.poll(timeout=1.0)
+                    if msg is None:
+                        continue
+                    
+                    if msg.error(): 
+                        logger.error(f"Consumer error: {msg.error()}")
+                        continue
 
                     # put_nowait keeps the poll loop non-blocking so librdkafka's
                     # heartbeat thread is never starved by handler processing.
