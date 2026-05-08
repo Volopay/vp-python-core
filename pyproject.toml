@@ -23,7 +23,7 @@ dependencies = [
     "httpx[http2]",
     "tenacity",
     "langchain-core",
-    "aiokafka",
+    "confluent-kafka",
 ]
 
 [project.optional-dependencies]
@@ -57,7 +57,7 @@ boto3 = "*"
 httpx = {extras = ["http2"], version = "*"}
 tenacity = "*"
 langchain-core = "*"
-aiokafka = "*"
+confluent-kafka = "*"
 
 [tool.setuptools.packages.find]
 where = ["."]
