@@ -39,7 +39,7 @@ class LlmService:
         multiplier: float = 0.5,
         min_wait: float = 0.5,
         max_wait: float = 2,
-        **kwargs
+        **kwargs,
     ) -> BaseModel | dict[str, str]:
         llm = self.llm(**kwargs)
         structured_llm = llm.with_structured_output(response_model, include_raw=True)
@@ -54,25 +54,26 @@ class LlmService:
             ),
         )
         async def _execute():
-            return await structured_llm.ainvoke(prompt)
+            response = await structured_llm.ainvoke(prompt)
 
-        response = await _execute()
+            if response is None:
+                raise ValueError("LLM returned None")
 
-        if response is None:
-            logger.error("LLM returned None")
+            parsed = response.get("parsed")
+            raw = response.get("raw")
+
+            if parsed is None:
+                raise ValueError(
+                    f"LLM failed to parse structured output. Raw response: {raw}"
+                )
+
+            return parsed
+
+        try:
+            return await _execute()
+        except Exception as e:
+            logger.error(f"LLM call failed after retries: {str(e)}")
             return {
                 "status": "FAIL",
-                "reason": "LLM failed to provide a structured result.",
+                "reason": f"LLM failed to provide a structured result: {str(e)}",
             }
-
-        parsed = response.get("parsed")
-        raw = response.get("raw")
-
-        if parsed is None:
-            logger.error(f"LLM failed to parse structured output. Raw response: {raw}")
-            return {
-                "status": "FAIL",
-                "reason": "LLM failed to provide a structured result.",
-            }
-
-        return parsed
