@@ -32,6 +32,17 @@ class LlmService:
 
         return GeminiService().llm(model=model, **kwargs)
 
+    def _parse_raw_content(
+        self, raw: Any, response_model: Type[BaseModel]
+    ) -> BaseModel | None:
+        raw_content = getattr(raw, "content", None) if raw else None
+        if not raw_content:
+            return None
+        try:
+            return response_model.model_validate_json(raw_content)
+        except Exception:
+            return None
+
     async def with_structured_output(
         self,
         prompt: str | list[BaseMessage],
@@ -59,17 +70,11 @@ class LlmService:
             if response is None:
                 raise ValueError("LLM returned None")
 
-            parsed = response.get("parsed")
-            raw = response.get("raw")
+            parsed = response.get("parsed") or self._parse_raw_content(
+                response.get("raw"), response_model
+            )
 
             if parsed is None:
-                raw_content = getattr(raw, "content", None) if raw else None
-                if raw_content:
-                    try:
-                        parsed = response_model.model_validate_json(raw_content)
-                        return parsed
-                    except Exception:
-                        pass
                 raise ValueError(
                     f"LLM failed to parse structured output. Raw response: {raw}"
                 )
