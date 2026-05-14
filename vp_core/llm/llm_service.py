@@ -63,6 +63,13 @@ class LlmService:
             raw = response.get("raw")
 
             if parsed is None:
+                raw_content = getattr(raw, "content", None) if raw else None
+                if raw_content:
+                    try:
+                        parsed = response_model.model_validate_json(raw_content)
+                        return parsed
+                    except Exception:
+                        pass
                 raise ValueError(
                     f"LLM failed to parse structured output. Raw response: {raw}"
                 )
