@@ -70,8 +70,9 @@ class LlmService:
             if response is None:
                 raise ValueError("LLM returned None")
 
+            raw = response.get("raw")
             parsed = response.get("parsed") or self._parse_raw_content(
-                response.get("raw"), response_model
+                raw, response_model
             )
 
             if parsed is None:
