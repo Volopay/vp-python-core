@@ -11,16 +11,16 @@ logger = setup_logger()
 class S3Helper:
     def __init__(
         self,
-        aws_access_key_id: str,
-        aws_secret_access_key: str,
         region_name: str,
+        aws_access_key_id: str = None,
+        aws_secret_access_key: str = None,
     ):
-        self.s3_client = boto3.client(
-            "s3",
-            aws_access_key_id=aws_access_key_id,
-            aws_secret_access_key=aws_secret_access_key,
-            region_name=region_name,
-        )
+        kwargs = {"region_name": region_name}
+        if aws_access_key_id:
+            kwargs["aws_access_key_id"] = aws_access_key_id
+        if aws_secret_access_key:
+            kwargs["aws_secret_access_key"] = aws_secret_access_key
+        self.s3_client = boto3.client("s3", **kwargs)
 
     async def get_object(self, bucket_name: str, key: str) -> Any:
         """
